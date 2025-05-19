@@ -1,7 +1,7 @@
 # Use official Python base image
 FROM python:3.10-slim
 
-# Set working directory
+# thiết lập thư mục làm việc
 WORKDIR /app
 
 # Copy files
@@ -15,3 +15,7 @@ EXPOSE 5000
 
 # Start the app
 CMD ["python", "app.py"]
+
+
+
+

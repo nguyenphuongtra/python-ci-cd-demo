@@ -8,3 +8,6 @@ app = Flask(__name__)
 def home():
     """Trang chủ trả về chuỗi chào mừng."""
     return "Hello from Flask CI/CD on Heroku!"
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000)
