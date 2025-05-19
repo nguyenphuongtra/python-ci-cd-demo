@@ -21,8 +21,22 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install pytest
+          pip install pytest coverage flake8 pylint
 
-      - name: Run tests
+      - name: Lint with flake8
         run: |
-          pytest
+          echo "Running flake8..."
+          flake8 . --max-line-length=100
+
+      - name: Lint with pylint
+        run: |
+          echo "Running pylint..."
+          pylint app.py test_app.py
+
+      - name: Run tests with coverage
+        run: |
+          echo "Running tests with coverage..."
+          coverage run -m pytest
+          coverage report
+          coverage xml  # (tùy chọn, nếu dùng Codecov)
+
