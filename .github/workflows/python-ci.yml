@@ -1,4 +1,4 @@
-name: Python CI
+name: Python CI/CD
 
 on:
   push:
@@ -24,19 +24,27 @@ jobs:
           pip install pytest coverage flake8 pylint
 
       - name: Lint with flake8
-        run: |
-          echo "Running flake8..."
-          flake8 . --max-line-length=100
+        run: flake8 . --max-line-length=100
 
       - name: Lint with pylint
-        run: |
-          echo "Running pylint..."
-          pylint app.py test_app.py
+        run: pylint app.py test_app.py
 
       - name: Run tests with coverage
         run: |
-          echo "Running tests with coverage..."
           coverage run -m pytest
           coverage report
-          coverage xml  # (tùy chọn, nếu dùng Codecov)
 
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
